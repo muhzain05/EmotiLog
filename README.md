@@ -1,196 +1,75 @@
-# EmotiLog - Emotion Tracking App
+# EmotiLog
 
-<div align="center">
-  <img src="EmotiLog/code/EmotiLog/app/src/main/res/drawable/happy.png" alt="EmotiLog Logo" width="100" height="100">
-  
-  **A simple and intuitive Android mood tracking app for daily emotional journaling**
-  
-  [![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://www.android.com/)
-  [![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)](https://www.java.com/)
-  [![Android Studio](https://img.shields.io/badge/Android_Studio-3DDC84?style=for-the-badge&logo=android-studio&logoColor=white)](https://developer.android.com/studio)
-</div>
+A small native Android mood-logging app built in Java for CMPUT 301. Users record one of six emotions, review the session log, and view per-emotion counts.
 
-## 📖 About
+<p align="center">
+  <img src="EmotiLog/code/EmotiLog/app/src/main/res/drawable/happy.png" alt="EmotiLog icon" width="90" />
+</p>
 
-EmotiLog is a minimalist Android mood tracker designed for quick and easy daily emotional journaling. Users can tap emotion icons on the home screen to log their feelings with automatic timestamps. The app features a clean, intuitive interface with three main sections: Home for logging emotions, Logs for viewing all entries, and Summary for analyzing mood patterns.
+## Implemented features
 
-Built for CMPUT 301
+- six one-tap emotions: Happy, Sad, Angry, Tired, InLove, and Chill
+- automatic timestamps in <code>yyyy-MM-dd HH:mm:ss</code> format
+- newest-first session log
+- per-emotion counts and total count
+- three-screen navigation: Home, Logs, and Summary
+- Android View Binding and Jetpack Navigation
 
-## ✨ Features
+## How it works
 
-### 🏠 **Home Screen**
-- **6 Emotion Icons**: Happy, Sad, Angry, Tired, In Love, and Chill
-- **One-Tap Logging**: Simply tap an emotion to log it instantly
-- **Automatic Timestamps**: Each entry is automatically timestamped
-- **Visual Feedback**: Toast notifications confirm successful logging
-- **Beautiful Background**: Custom background image for enhanced visual appeal
+The application is intentionally simple:
 
-### 📋 **Logs Screen**
-- **Complete History**: View all logged emotions in chronological order
-- **Latest First**: Most recent entries appear at the top
-- **Scrollable Interface**: Easy navigation through all entries
-- **Clean Format**: "Emotion - YYYY-MM-DD HH:mm:ss" format
+- <code>HomeFragment</code> reads each emotion button's content description and sends it to <code>Logger.log(...)</code>
+- <code>Logger</code> stores timestamped entries in an in-memory <code>ArrayList</code>
+- <code>LogsFragment</code> renders a copy of the stored entries
+- <code>SummaryLogger</code> derives counts from those entries
+- <code>SummaryFragment</code> refreshes the counts when the screen resumes
 
-### 📊 **Summary Screen**
-- **Individual Counts**: See how many times each emotion was logged
-- **Total Count**: Track your overall logging activity
-- **Visual Layout**: Emotion icons with their respective counts
-- **Real-time Updates**: Summary updates automatically when you log emotions
+**Persistence:** entries live in process memory only. Closing/restarting the app process clears the log; there is no database or file persistence in the current source.
 
-## 🎨 Screenshots
+## Screenshots
 
-| Home Screen | Logs Screen | Summary Screen |
-|-------------|-------------|----------------|
-| ![Home Screen](EmotiLog/doc/Home_Screen.png) | ![Logs Screen](EmotiLog/doc/Logs.png) | ![Summary Screen](EmotiLog/doc/Summary_Page.png) |
-| *Main interface where users tap emotion icons to log their current mood* | *Displays all logged emotions with timestamps in chronological order* | *Shows emotion counts and total logging activity* |
+| Home | Logs | Summary |
+|---|---|---|
+| ![Home](EmotiLog/doc/Home_Screen.png) | ![Logs](EmotiLog/doc/Logs.png) | ![Summary](EmotiLog/doc/Summary_Page.png) |
 
-## 🛠️ Technical Details
+## Tech stack
 
-### **Architecture**
-- **Single Activity Architecture**: Uses one MainActivity with multiple fragments
-- **Jetpack Navigation**: Bottom navigation between Home, Logs, and Summary
-- **View Binding**: Modern Android UI binding approach
-- **Material Design**: Follows Material Design guidelines
+- Java 11
+- Android SDK (min SDK 24, target/compile SDK 36)
+- AndroidX / Material Components
+- Jetpack Navigation
+- View Binding
+- JUnit / AndroidX test dependencies
 
-### **Key Components**
-- **MainActivity**: Hosts navigation and manages fragments
-- **Logger**: Static class for emotion logging and data management
-- **SummaryLogger**: Handles emotion counting and statistics
-- **HomeFragment**: Main emotion selection interface
-- **LogsFragment**: Displays all logged entries
-- **SummaryFragment**: Shows emotion statistics
+## Project layout
 
-### **Data Management**
-- **In-Memory Storage**: Simple ArrayList-based storage
-- **Automatic Timestamps**: Java SimpleDateFormat for consistent formatting
-- **Real-time Updates**: Immediate UI updates on data changes
-
-## 🚀 Installation & Setup
-
-### **Prerequisites**
-- Android Studio Arctic Fox or later
-- Android SDK API 24+
-- Java 11 or later
-
-### **Build Instructions**
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/MuhammadZain2005/EmotiLog.git
-   cd EmotiLog
-   ```
-
-2. **Open in Android Studio**
-   - Launch Android Studio
-   - Select "Open an existing project"
-   - Navigate to `EmotiLog/code/EmotiLog/` folder
-   - Click "OK"
-
-3. **Sync Project**
-   - Android Studio will automatically sync Gradle files
-   - Wait for sync to complete
-
-4. **Build and Run**
-   - Connect an Android device or start an emulator
-   - Click the "Run" button (▶️) or press `Shift + F10`
-   - Select your target device
-   - The app will install and launch automatically
-
-### **Alternative: APK Installation**
-If you have the APK file:
-1. Enable "Unknown Sources" in your Android settings
-2. Transfer the APK to your device
-3. Tap the APK file to install
-
-## 📁 Project Structure
-
-```
+~~~text
 EmotiLog/
-├── code/
-│   └── EmotiLog/                    # Android Project
-│       ├── app/
-│       │   ├── src/main/
-│       │   │   ├── java/com/example/emotilog/
-│       │   │   │   ├── MainActivity.java
-│       │   │   │   ├── Logger.java
-│       │   │   │   ├── SummaryLogger.java
-│       │   │   │   └── ui/
-│       │   │   │       ├── home/HomeFragment.java
-│       │   │   │       ├── Logs/LogsFragment.java
-│       │   │   │       └── summary/SummaryFragment.java
-│       │   │   ├── res/
-│       │   │   │   ├── drawable/          # Emotion icons
-│       │   │   │   ├── layout/            # UI layouts
-│       │   │   │   ├── values/            # Strings, colors
-│       │   │   │   └── navigation/        # Navigation graph
-│       │   │   └── AndroidManifest.xml
-│       │   └── build.gradle.kts
-│       └── build.gradle.kts
-├── doc/
-│   ├── Masad4-EmotiLogUML.drawio.png     # UML Diagram
-│   └── Masad4-EmotiLogUML.drawio.pdf     # UML Diagram (PDF)
-└── video/
-    └── Demonstration.mov                  # App Demo Video
-```
+└── EmotiLog/
+    └── code/
+        └── EmotiLog/
+            ├── app/
+            │   ├── src/main/java/com/example/emotilog/
+            │   │   ├── MainActivity.java
+            │   │   ├── Logger.java
+            │   │   ├── SummaryLogger.java
+            │   │   └── ui/
+            │   └── src/main/res/
+            └── build.gradle.kts
+~~~
 
-## 🎯 Usage
+The repository also includes UML/documentation assets and a recorded demonstration.
 
-### **Logging Emotions**
-1. Open the app
-2. On the Home screen, tap any emotion icon that represents your current mood
-3. You'll see a confirmation toast message
-4. The emotion is automatically logged with the current timestamp
+## Run locally
 
-### **Viewing Logs**
-1. Tap the "Logs" tab in the bottom navigation
-2. Scroll through all your logged emotions
-3. Entries are sorted with the most recent first
+~~~bash
+git clone https://github.com/muhzain05/EmotiLog.git
+cd EmotiLog/EmotiLog/code/EmotiLog
+~~~
 
-### **Checking Summary**
-1. Tap the "Summary" tab in the bottom navigation
-2. View individual counts for each emotion
-3. See your total logging activity
+Open that Android project in Android Studio, sync Gradle, and run it on an emulator or Android device.
 
-## 🔧 Customization
+## Author
 
-### **Adding New Emotions**
-1. Add emotion icon to `res/drawable/`
-2. Update `strings.xml` with emotion name
-3. Add ImageButton to `fragment_home.xml`
-4. Update `HomeFragment.java` to handle new emotion
-5. Update `SummaryFragment.java` to display count
-
-### **Changing Colors**
-- Modify `res/values/colors.xml`
-- Update theme in `res/values/themes.xml`
-
-### **Background Image**
-- Replace `res/drawable/background_image.jpg`
-- Maintain aspect ratio for best results
-
-## 📊 UML Diagram
-
-The project includes a comprehensive UML diagram showing the app's architecture and relationships between components.
-
-![UML Diagram](EmotiLog/doc/Masad4-EmotiLogUML.drawio.png)
-
-## 🎥 Demo Video
-
-Watch the app in action! Check out the demonstration video:
-- **Location**: `EmotiLog/video/Demonstration.mov`
-- **Content**: Complete app walkthrough showing all features
-
-## 📝 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## 👨‍💻 Author
-
-**Muhammad Zain Asad**
-- GitHub: [@MuhammadZain2005](https://github.com/MuhammadZain2005)
-- Project: [EmotiLog Repository](https://github.com/MuhammadZain2005/EmotiLog)
----
-
-<div align="center">
-  <p>Made with ❤️ for better emotional awareness</p>
-</div>
+Muhammad Zain Asad — [GitHub](https://github.com/muhzain05)
